@@ -6,7 +6,7 @@ Run [Molmo2](https://github.com/allenai/molmo2) (AI2's vision-language model) lo
 
 - NVIDIA GPU with ~7GB free VRAM (tested on RTX 3060 12GB; the 4B model uses ~6.5GB with 4-bit quantization)
 - [Pixi](https://pixi.sh) package manager
-- ~8GB disk space for the 4B model weights
+- ~19GB disk space for the 4B model weights
 
 ## Setup
 
@@ -23,7 +23,7 @@ pixi install
 pixi run download
 ```
 
-This downloads `allenai/Molmo2-4B` from HuggingFace (~8GB).
+This downloads `allenai/Molmo2-4B` from HuggingFace (~19GB — 4 shards in bf16, including a large vocab embedding and SigLIP vision backbone).
 
 ### 2. Chat
 
