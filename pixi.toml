@@ -1,30 +1,43 @@
 [workspace]
 name = "molmo2-local"
 channels = ["nvidia", "conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
 version = "0.1.0"
-
-[system-requirements]
-cuda = "12"
 
 [dependencies]
 python = ">=3.11,<3.13"
 pip = "*"
 
 [pypi-dependencies]
-torch = { version = ">=2.6", index = "https://download.pytorch.org/whl/cu126" }
-torchvision = { version = "*", index = "https://download.pytorch.org/whl/cu126" }
 transformers = ">=4.48,<5.0"
 accelerate = "*"
-bitsandbytes = ">=0.43"
-torchcodec = ">=0.0.7"
 pillow = "*"
 numpy = "*"
 einops = "*"
-decord2 = "*"
 molmo-utils = "*"
 huggingface-hub = "*"
 sentencepiece = "*"
+
+# ---------- Linux (NVIDIA GPU with CUDA 12) ----------
+[target.linux-64.system-requirements]
+cuda = "12"
+
+[target.linux-64.pypi-dependencies]
+torch = { version = ">=2.6", index = "https://download.pytorch.org/whl/cu126" }
+torchvision = { version = "*", index = "https://download.pytorch.org/whl/cu126" }
+bitsandbytes = ">=0.43"
+torchcodec = ">=0.0.7"
+decord2 = "*"
+
+# ---------- macOS (Apple Silicon — MPS or CPU) ----------
+[target.osx-arm64.pypi-dependencies]
+torch = ">=2.6"
+torchvision = "*"
+
+# ---------- Windows (CPU or CUDA if available) ----------
+[target.win-64.pypi-dependencies]
+torch = ">=2.6"
+torchvision = "*"
 
 [tasks]
 chat = "python chat.py"
