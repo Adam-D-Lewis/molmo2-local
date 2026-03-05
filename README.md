@@ -1,12 +1,15 @@
 # Molmo2 Local
 
-Run [Molmo2](https://github.com/allenai/molmo2) (AI2's vision-language model) locally on a consumer GPU using 4-bit quantization. Supports image and video understanding.
+Run [Molmo2](https://github.com/allenai/molmo2) (AI2's vision-language model) locally using 4-bit quantization on NVIDIA GPUs, or in float16/float32 on macOS (Apple Silicon) and Windows.
 
 ## Requirements
 
-- NVIDIA GPU with ~7GB free VRAM (tested on RTX 3060 12GB; the 4B model uses ~6.5GB with 4-bit quantization)
 - [Pixi](https://pixi.sh) package manager
 - ~19GB disk space for the 4B model weights
+- One of:
+  - **Linux** — NVIDIA GPU with ~7GB free VRAM (4-bit quantized, tested on RTX 3060 12GB)
+  - **macOS** (Apple Silicon) — ~8GB free RAM (runs in float16 via MPS)
+  - **Windows** — NVIDIA GPU recommended; falls back to CPU if unavailable
 
 ## Setup
 
@@ -48,13 +51,16 @@ You can load images and videos during a chat session without restarting:
 - `/video path/to/video.mp4` — load a new video (replaces any current image)
 - `/clear` — clear current image/video for text-only mode
 
-## VRAM usage
+## Platform details
 
-Measured on an RTX 3060 (12GB) with 4-bit NF4 quantization (vision backbone kept in full precision):
+| Platform | Device | Quantization | Approx memory |
+|----------|--------|-------------|---------------|
+| Linux (NVIDIA) | CUDA | 4-bit NF4 | ~6.5 GB VRAM |
+| macOS (Apple Silicon) | MPS | float16 | ~8 GB RAM |
+| Windows (NVIDIA) | CUDA | 4-bit NF4 | ~6.5 GB VRAM |
+| Windows / CPU | CPU | float32 | ~16 GB RAM |
 
-| Model | Params | Measured VRAM |
-|-------|--------|---------------|
-| `allenai/Molmo2-4B` | 4B | ~6.5 GB |
+Video support (`/video`, `--video`) requires `torchcodec` and `decord2`, which are currently only installed on Linux. Image and text chat work on all platforms.
 
 To try the larger models, edit `MODEL_ID` in `chat.py` and `download_model.py`:
 
